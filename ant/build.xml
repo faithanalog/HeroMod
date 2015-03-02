@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="heromod" basedir="." default="build">
+	
+	<property name="mcp.dir" value="../../../"/>
+	<property name="liteloader.dir" value="../../LiteLoader"/>
+	<property name="liteloader.src" value="${liteloader.dir}/java"/>
+	<property name="src" value="../src"/>
+	<property name="res" value="../res"/>
+	<property name="lib" value="../lib"/>
+	<property name="modsrc" value="${mcp.dir}/src/minecraft/heromod"/>
+	<property name="reobf" value="${mcp.dir}/reobf/minecraft"/>
+	<property name="temp" value="${mcp.dir}/temp"/>
+	<property name="md5dir" value="${mcp.dir}/md5"/>
+	<property name="dest" value="../dest"/>
+	<property name="python" value="/usr/bin/python"/>
+	
+    <target name="build" depends="init, compile, obf, clean, zip"/>
+	
+	<target name="init">
+	    <copy todir="${modsrc}">
+	        <fileset dir="${src}"/>
+	    	<fileset dir="${liteloader.src}"/>
+    	</copy>
+		<!--
+    	<copy todir="${mcp.dir}/lib">
+    	    <fileset dir="${lib}"/>
+		</copy>
+		-->
+		<copy tofile="${temp}/client.md5" file="${md5dir}/client_liteloader.md5"/>
+	</target>
+	
+	<target name="compile">
+		<exec executable="${python}" dir="${mcp.dir}">
+			<arg value="runtime/recompile.py" />
+            <arg value="--client" />
+			<arg value="%*" />
+		</exec>
+	</target>
+	
+	<target name="obf">
+		<exec executable="${python}" dir="${mcp.dir}">
+            <arg value="runtime/reobfuscate.py" />
+            <arg value="--client" />
+            <arg value="%*" />
+        </exec>	
+	</target>
+	
+	<target name="zip">
+		<mkdir dir="${dest}"/>
+		<delete file="${dest}/HeroMod.litemod"/>
+		<jar destfile="${dest}/HeroMod.litemod">
+			<fileset dir="${reobf}" includes="me/ukl/"/>
+			<fileset dir="${res}"/>
+		</jar>
+	</target>
+	
+	<target name="clean">
+	    <delete dir="${modsrc}"/>
+	</target>
+
+</project>

@@ -66,7 +66,7 @@ public class LiteModHeroMod implements PostRenderListener, PreJoinGameListener, 
 	public KeyBinding mapCreateWaypoint;
 	
 	private boolean confirmHC = false;
-	private boolean expired = true;
+	private boolean expired = false;
 	
 	private World curWorld;
 	
@@ -86,6 +86,7 @@ public class LiteModHeroMod implements PostRenderListener, PreJoinGameListener, 
 
 			@Override
 			public void run() {
+                /*
 				try {
 					URL url = new URL("http://hmod.ukl.me:4071/testValid");
 					BufferedReader rdr = new BufferedReader(new InputStreamReader(url.openStream()));
@@ -102,6 +103,7 @@ public class LiteModHeroMod implements PostRenderListener, PreJoinGameListener, 
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+                */
 			}
 		
 		}).start();
